@@ -2,13 +2,14 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv'
 import multer from 'multer';
-import axios from 'axios';
 import fs from 'fs';
 
 dotenv.config();
+console.log(dotenv.config.AZURE_ENDPOINT)
 
 const app = express();
-const upload = multer({ dest: 'uploads/' }); // Save uploads temporarily
+// saves our images temporarilly
+const upload = multer({ dest: 'uploads/' });
 
 app.use(cors({
     origin: "*"
@@ -23,31 +24,29 @@ app.use(express.json());
 app.use(express.static('./public'));
 
 app.post('/analyze', upload.single('image'), async (req, res) => {
+    const imagePath = req.file.path;
+    const imageBuffer = fs.readFileSync(imagePath);
+
+    const predictionKey = process.env.KEY;
+    const endpoint = process.env.AZURE_ENDPOINT;
+
     try {
-        const filePath = req.file.path;
-        const imageBuffer = fs.readFileSync(filePath);
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Prediction-Key': predictionKey,
+                'Content-Type': 'application/octet-stream'
+            },
+            body: imageBuffer
+        });
 
-        const response = await axios.post(
-            process.env.AZURE_ENDPOINT + 'computervision/imageanalysis:analyze?api-version=2023-02-01-preview',
-            imageBuffer,
-            {
-                headers: {
-                    'Content-Type': 'application/octet-stream',
-                    'Ocp-Apim-Subscription-Key': process.env.KEY,
-                },
-                params: {
-                    features: 'caption,read',
-                },
-            }
-        );
-
-        // Cleanup the uploaded file
-        fs.unlinkSync(filePath);
-
-        res.json(response.data);
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({ error: 'Failed to analyze image' });
+        const result = await response.json();
+        res.json(result);
+    } catch (err) {
+        console.error('Azure call failed:', err);
+        res.status(500).json({ error: 'Prediction failed' });
+    } finally {
+        fs.unlinkSync(imagePath); 
     }
 });
 

@@ -18,10 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
         reader.onload = () => {
             previewImg.src = reader.result;
         };
-        reader.readAsDataURL(file); // convert file to base64 for preview
+        reader.readAsDataURL(file); 
     });
 
-    // Set up submit button to handle sending to AI
+    // Set up submit button to send to AI
     document.getElementById("submitImage").addEventListener("click", submitImageToAI);
 });
 
@@ -49,5 +49,19 @@ async function submitImageToAI() {
 
     const data = await res.json();
     resultBox.innerText = JSON.stringify(data, null, 2);
+
+    fetch('/analyze', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Prediction result:', data);
+        document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+    })
+    .catch(error => {
+        console.error('Error during prediction:', error);
+        alert('Prediction failed. See console for details.');
+    });
 }
 
