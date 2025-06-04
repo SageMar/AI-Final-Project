@@ -2,6 +2,29 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("submitImage").addEventListener("click", submitImageToAI);
 });
 
+/*
+Preview image after upload, before submitting
+*/
+document.addEventListener("DOMContentLoaded", () => {
+    const fileInput = document.getElementById("fileInput");
+    const previewImg = document.getElementById("preview");
+
+    // Show preview as soon as user selects a file
+    fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            previewImg.src = reader.result;
+        };
+        reader.readAsDataURL(file); // convert file to base64 for preview
+    });
+
+    // Set up submit button to handle sending to AI
+    document.getElementById("submitImage").addEventListener("click", submitImageToAI);
+});
+
 async function submitImageToAI() {
     const input = document.getElementById('fileInput');
     const file = input.files[0];
@@ -27,3 +50,4 @@ async function submitImageToAI() {
     const data = await res.json();
     resultBox.innerText = JSON.stringify(data, null, 2);
 }
+
