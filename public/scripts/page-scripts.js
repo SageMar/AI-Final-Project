@@ -1,13 +1,11 @@
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("submitImage").addEventListener("click", submitImageToAI);
-});
-
 /*
 Preview image after upload, before submitting
 */
 document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("submitImage").addEventListener("click", submitImageToAI);
     const fileInput = document.getElementById("fileInput");
     const previewImg = document.getElementById("preview");
+    const submitImage = document.getElementById("submitImage");
 
     // Show preview as soon as user selects a file
     fileInput.addEventListener("change", () => {
@@ -22,13 +20,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Set up submit button to send to AI
-    document.getElementById("submitImage").addEventListener("click", submitImageToAI);
+    submitImage.addEventListener("click", submitImageToAI);
 });
 
 async function submitImageToAI() {
     const input = document.getElementById('fileInput');
     const file = input.files[0];
-    if (!file) return alert("Please upload an image.");
+
+    if (!file) {
+        return alert("Please upload an image.");
+    }
 
     const reader = new FileReader();
     reader.onload = () => {
@@ -45,19 +46,20 @@ async function submitImageToAI() {
     const res = await fetch('/analyze', {
         method: 'POST',
         body: formData
-    });
-
-    const data = await res.json();
-    resultBox.innerText = JSON.stringify(data, null, 2);
-
-    fetch('/analyze', {
-        method: 'POST',
-        body: formData
     })
     .then(response => response.json())
     .then(data => {
         console.log('Prediction result:', data);
-        document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+        // arrange the data nicely for the user
+        const topPrediction = data.predictions[0];
+
+        const result = `
+            <h3>Diagnosis</h3>
+            <p>Your image appears to be a ${topPrediction.tagName}</p>
+            <p>Confidence: ${(topPrediction.probability * 100).toFixed(1)}%</p>
+            `;
+
+        document.getElementById('result').innerHTML = result;
     })
     .catch(error => {
         console.error('Error during prediction:', error);
