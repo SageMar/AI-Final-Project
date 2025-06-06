@@ -31,6 +31,9 @@ async function submitImageToAI() {
         return alert("Please upload an image.");
     }
 
+    // create a variable to hold our result to send again
+    let topPrediction = '';
+
     const reader = new FileReader();
     reader.onload = () => {
         document.getElementById('preview').src = reader.result;
@@ -48,22 +51,39 @@ async function submitImageToAI() {
         body: formData
     })
     .then(response => response.json())
-    .then(data => {
+    .then(async data => {
         console.log('Prediction result:', data);
         // arrange the data nicely for the user
-        const topPrediction = data.predictions[0];
+        topPrediction = data.predictions[0];
 
-        const result = `
+        let result = `
             <h3>Diagnosis</h3>
             <p>Your image appears to be a ${topPrediction.tagName}</p>
             <p>Confidence: ${(topPrediction.probability * 100).toFixed(1)}%</p>
             `;
+    
 
-        document.getElementById('result').innerHTML = result;
-    })
-    .catch(error => {
+    // call on LLM for treatments
+    const treatmentSuggestion = await fetch('/treatment', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({diagnosis: topPrediction.tagName})
+    });
+
+    const treatmentData = await treatmentSuggestion.json();
+
+    if (treatmentData.tips) {
+        result += `
+        <H3>Suggestions for Treatment:</h3>
+        <p>${treatmentData.tips}</p>
+        `;
+    } else {
+        result += `<p>No tips found.</p>`
+    }
+     document.getElementById('result').innerHTML = result;
+}) .catch(error => {
         console.error('Error during prediction:', error);
-        alert('Prediction failed. See console for details.');
+        alert('Prediction failed.');
     });
 }
 
