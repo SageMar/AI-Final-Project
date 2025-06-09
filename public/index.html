@@ -7,17 +7,23 @@
     <script type="module" src="./scripts/page-scripts.js"></script>
 </head>
 <body>
-<h1> Plant Health Checker </h1>
 
-<p>Start by uploading a photo of your plant to get recommendations for it's health!</p>
+    <div id = "main">
+        <h1> Plant Health Checker </h1>
 
-<input type="file" id="fileInput" accept="image/*" />
-<br>
-<img id="preview" class="preview" />
-<br><br>
-<button id = "submitImage">Analyze Image</button>
+        <p>Start by uploading a photo of your plant to get recommendations for its health!</p>
+
+        <input type="file" id="fileInput" accept="image/*" />
+        <br>
+        <img id="preview" class="preview" />
+        <br><br>
+        <button id = "submitImage">Analyze Image</button>
 
 
-<div id="result"></div>
+        <div id="result"></div>
+
+    </div>
+
+    <p>This app uses a limited database, it may not work for your specific plant.</p>
 </body>
 </html>

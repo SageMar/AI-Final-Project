@@ -71,11 +71,11 @@ app.post('/treatment', async (req, res) => {
             messages: [
                 {
                     role: 'system',
-                    content: 'You are a botanist giving helpful tips on how to treat a plant disease.'
+                    content: "You are a botanist giving helpful tips on how to treat a plant disease. You should respond in this format <li>tip1</li><li>tip2</li> and so on, with no extra wordage."
                 },
                 {
                     role: 'user',
-                    content: 'I have a ${diagnosis}. What are three things I can do to treat it?'
+                    content: `I have a ${diagnosis}. What are three things I can do to treat it?`
                 },
             ],
         });

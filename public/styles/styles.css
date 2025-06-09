@@ -1,5 +1,25 @@
 body {
     text-align: center;
+    background-color: darkslategray;
+}
+
+image {
+    height: 150px;
+}
+
+li {
+    text-align: center;
+}
+
+#main{
+    width: 75%;
+    background-color: rgb(216, 239, 203);
+    border: 1px solid darkslategray;
+    width: 50%;
+    min-height: 500px;
+    border-radius: 20%;
+    margin: auto;
+    padding: 20px;
 }
 
 .preview {

@@ -59,7 +59,6 @@ async function submitImageToAI() {
         let result = `
             <h3>Diagnosis</h3>
             <p>Your image appears to be a ${topPrediction.tagName}</p>
-            <p>Confidence: ${(topPrediction.probability * 100).toFixed(1)}%</p>
             `;
     
 
