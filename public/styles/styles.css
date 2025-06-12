@@ -9,6 +9,8 @@ image {
 
 li {
     text-align: center;
+    margin: 30px;
+    list-style-type: none;
 }
 
 #main{

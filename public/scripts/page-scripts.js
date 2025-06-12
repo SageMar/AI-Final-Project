@@ -74,7 +74,7 @@ async function submitImageToAI() {
     if (treatmentData.tips) {
         result += `
         <H3>Suggestions for Treatment:</h3>
-        <p>${treatmentData.tips}</p>
+        <ul>${treatmentData.tips}</ul>
         `;
     } else {
         result += `<p>No tips found.</p>`

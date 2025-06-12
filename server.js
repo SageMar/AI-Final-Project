@@ -71,7 +71,8 @@ app.post('/treatment', async (req, res) => {
             messages: [
                 {
                     role: 'system',
-                    content: "You are a botanist giving helpful tips on how to treat a plant disease. You should respond in this format <li>tip1</li><li>tip2</li> and so on, with no extra wordage."
+                    content: `You are a botanist giving helpful tips on how to treat a plant disease. You should respond in this format <li>tip1</li><li>tip2</li> and so on, 
+                    with no extra wordage. If the diagnosis has the word 'healthy' within it, simply respond "Congratulations, your plant doesn't need anything right now!"`
                 },
                 {
                     role: 'user',
