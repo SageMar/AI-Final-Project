@@ -8,22 +8,21 @@
 </head>
 <body>
 
-    <div id = "main">
-        <h1> Plant Health Checker </h1>
-
-        <p>Start by uploading a photo of your plant to get recommendations for its health!</p>
-
-        <input type="file" id="fileInput" accept="image/*" />
-        <br>
-        <img id="preview" class="preview" />
-        <br><br>
-        <button id = "submitImage">Analyze Image</button>
-
-
-        <div id="result"></div>
-
+    <div class="container">
+        <div class="card">
+            <h1><span class="leaf">🌱</span> Plant Health Checker</h1>
+            <p class="subtitle">Upload a photo of your plant to get modern, AI-powered care tips!</p>
+            <label class="file-label">
+                <input type="file" id="fileInput" accept="image/*" />
+                <span>Choose Image</span>
+            </label>
+            <img id="preview" class="preview" style="display:none;" />
+            <button id="submitImage" class="modern-btn">Analyze Image</button>
+            <div id="result" class="result-box"></div>
+        </div>
+        <footer>
+            <p class="footer-note">This app uses a limited database and may not work for every plant.</p>
+        </footer>
     </div>
-
-    <p>This app uses a limited database, it may not work for your specific plant.</p>
 </body>
 </html>

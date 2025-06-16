@@ -10,11 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // Show preview as soon as user selects a file
     fileInput.addEventListener("change", () => {
         const file = fileInput.files[0];
-        if (!file) return;
+        if (!file) {
+            previewImg.style.display = "none";
+            previewImg.src = "";
+            return;
+        }
 
         const reader = new FileReader();
         reader.onload = () => {
             previewImg.src = reader.result;
+            previewImg.style.display = "block";
         };
         reader.readAsDataURL(file); 
     });
@@ -34,17 +39,13 @@ async function submitImageToAI() {
     // create a variable to hold our result to send again
     let topPrediction = '';
 
-    const reader = new FileReader();
-    reader.onload = () => {
-        document.getElementById('preview').src = reader.result;
-    };
-    reader.readAsDataURL(file);
+
 
     const formData = new FormData();
     formData.append("image", file);
 
     const resultBox = document.getElementById('result');
-    resultBox.innerText = "Analyzing...";
+    resultBox.innerHTML = `<span style="color:#388e3c;font-weight:500;">Analyzing...</span>`;
 
     const res = await fetch('/analyze', {
         method: 'POST',
