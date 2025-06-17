@@ -1,5 +1,10 @@
 # AI-Final-Project
 
+## Authors:
+- Sage Markwardt
+
+## Setup
+
 To run this project, first run the following command:
 
 ```npm install express cors dotenv multer openai```
@@ -37,6 +42,8 @@ This project integrates two major APIs — GROQ and Azure Cognitive Services —
 Used to analyze uploaded plant images and extract health-related predictions.
 
     Endpoint: Stored in .env as AZURE_ENDPOINT
+
+    Datasets: https://www.kaggle.com/datasets/emmarex/plantdisease, https://www.kaggle.com/datasets/dixitakhilesh/plant-disease-dataset
 
     Key: Stored as KEY
 
