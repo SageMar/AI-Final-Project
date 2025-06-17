@@ -3,6 +3,9 @@
 ## Authors:
 - Sage Markwardt
 
+## Project Slides
+https://docs.google.com/presentation/d/18UXxXwkLLTuN8jZrJv0m4LWG8YPt3D6X-1Y9w1ITw_g/edit?slide=id.g36710955293_0_13#slide=id.g36710955293_0_13
+
 ## Setup
 
 To run this project, first run the following command:
